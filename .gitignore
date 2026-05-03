@@ -1,0 +1,14 @@
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+
+renderer/dist/
+dist/
+
+*.docx
+*.pdf
+*_比对.md
+*_sidecar.zip
+

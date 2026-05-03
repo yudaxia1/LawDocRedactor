@@ -1,0 +1,68 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev:renderer": "npm --workspace renderer run dev",
+    "dev:electron": "wait-on tcp:5173 && electron .",
+    "dev": "concurrently -k \"npm:dev:renderer\" \"npm:dev:electron\"",
+    "build:renderer": "npm --workspace renderer run build",
+    "build": "npm run build:renderer",
+    "pack": "npm run build:renderer && electron-builder --dir",
+    "dist": "npm run build:renderer && electron-builder",
+    "test": "node -e \"console.log('ok')\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "workspaces": [
+    "renderer"
+  ],
+  "engines": {
+    "node": "^20.0.0"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.5.16",
+    "concurrently": "^8.2.2",
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.onlyforgemini.law-doc-redactor",
+    "productName": "LawDocRedactor",
+    "files": [
+      "electron/**",
+      "renderer/dist/**",
+      "worker/**",
+      "package.json"
+    ],
+    "asar": true,
+    "extraResources": [
+      {
+        "from": "worker/bin",
+        "to": "bin",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "worker/rules",
+        "to": "worker/rules",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
